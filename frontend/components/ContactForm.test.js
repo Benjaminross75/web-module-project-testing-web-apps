@@ -76,9 +76,32 @@ expect(errorMessage).toBeInTheDocument();
 
 });
 
-// test('renders all firstName, lastName and email text when submitted. Does NOT render message if message is not submitted.', async () => {
+test('renders all firstName, lastName and email text when submitted. Does NOT render message if message is not submitted.', async () => {
+render(<ContactForm/>);
 
-// });
+const firstNameField = screen.getByLabelText(/First Name*/i);
+const lastNamefield = screen.getByLabelText(/Last Name*/i);
+const emailField = screen.getByLabelText(/Email*/i);
+//const displayMessage = screen.getByLabelText(/Message/i);
+
+userEvent.type(firstNameField, 'warren');
+userEvent.type(lastNamefield, 'longmire');
+userEvent.type(emailField, 'mrbenross@gmail.com');
+
+const submitButton = screen.getByRole('button');
+userEvent.click(submitButton);
+
+await waitFor(()=>{
+    const firstNameDisplay = screen.queryByText(/warren/i);
+    const lastNameDisplay = screen.queryByText(/longmire/i);
+    const emailDisplay = screen.queryByText(/mrbenross@gmail.com/i);
+    const messageDisplay = screen.queryByTestId('messageDisplay');
+    expect(firstNameDisplay).toBeInTheDocument();
+    expect(lastNameDisplay).toBeInTheDocument();
+    expect(emailDisplay).toBeInTheDocument();
+    expect(messageDisplay).not.toBeInTheDocument();
+});
+});
 
 // test('renders all fields text when all fields are submitted.', async () => {
 
