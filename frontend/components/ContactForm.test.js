@@ -55,9 +55,15 @@ expect(errorMessages).toHaveLength(1);
 
 });
 
-// test('renders "email must be a valid email address" if an invalid email is entered', async () => {
+test('renders "email must be a valid email address" if an invalid email is entered', async () => {
+render(<ContactForm/>);
+const emailField = screen.getByLabelText(/Email*/i);
+userEvent.type(emailField, "mrben@gail");
 
-// });
+const errorMessage = await screen.findByText(/email must be a valid email address/i);
+expect(errorMessage).toBeInTheDocument();
+
+});
 
 // test('renders "lastName is a required field" if an last name is not entered and the submit button is clicked', async () => {
 
